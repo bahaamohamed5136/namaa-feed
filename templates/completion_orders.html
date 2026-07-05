@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}إنهاء الطلبات{% endblock %}
+{% block export_buttons %}
+<div style="text-align:left;margin-bottom:10px">
+  <a href="{{ url_for('export_data', export_type='approved') }}" class="btn btn-success btn-sm">📊 Excel</a>
+  <button onclick="window.print()" class="btn btn-info btn-sm">🖨️ طباعة</button>
+</div>
+{% endblock %}
+{% block content %}
+<div class="page-title">✅ إنهاء الطلبات</div>
+
+{% if orders %}
+<div class="card">
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>رقم الطلب</th>
+          <th>التاريخ</th>
+          <th>مقدم الطلب</th>
+          <th>نوع العلف</th>
+          <th>الوزن</th>
+          <th>الكمية (طن)</th>
+          <th>الحالة</th>
+          <th>إجراء</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in orders %}
+        <tr>
+          <td><strong>{{ r.request_number }}</strong></td>
+          <td>{{ r.request_date }}</td>
+          <td>{{ r.requester_name }}</td>
+          <td>{{ r.feed_name_ar }}</td>
+          <td>{{ r.package_weight_kg }} كجم</td>
+          <td>{{ r.quantity_tons }}</td>
+          <td>{{ get_status_badge(r.status)|safe }}</td>
+          <td><a href="{{ url_for('view_order', order_id=r.request_id) }}" class="btn btn-info btn-sm">🔍 عرض</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="card empty-state">
+  <div class="icon">✅</div>
+  <p>لا توجد طلبات</p>
+</div>
+{% endif %}
+{% endblock %}

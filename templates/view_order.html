@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}تفاصيل الطلب{% endblock %}
+{% block export_buttons %}
+<div style="text-align:left;margin-bottom:10px">
+  <a href="{{ url_for('export_data', export_type='order', order_id=order.request_id) }}" class="btn btn-success btn-sm">📊 Excel</a>
+  <button onclick="window.print()" class="btn btn-info btn-sm">🖨️ طباعة</button>
+</div>
+{% endblock %}
+{% block content %}
+<div class="page-title">📄 تفاصيل الطلب #{{ order.request_number }}</div>
+
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <div style="font-size:18px;font-weight:700;color:#1a3d2f">{{ order.feed_name_ar }} ({{ order.feed_code }})</div>
+    <div>{{ get_status_badge(order.status)|safe }}</div>
+  </div>
+  <div class="detail-grid">
+    <div class="detail-item"><div class="label">رقم الطلب</div><div class="value">{{ order.request_number }}</div></div>
+    <div class="detail-item"><div class="label">التاريخ</div><div class="value">{{ order.request_date }}</div></div>
+    <div class="detail-item"><div class="label">الوقت</div><div class="value">{{ order.request_time }}</div></div>
+    <div class="detail-item"><div class="label">نوع العلف</div><div class="value">{{ order.feed_name_ar }}</div></div>
+    <div class="detail-item"><div class="label">نسبة البروتين</div><div class="value">{{ order.protein_percent }}%</div></div>
+    <div class="detail-item"><div class="label">وزن العبوة</div><div class="value">{{ order.package_weight_kg }} كجم</div></div>
+    <div class="detail-item"><div class="label">الكمية المطلوبة</div><div class="value">{{ order.quantity_tons }} طن</div></div>
+    <div class="detail-item"><div class="label">مقدم الطلب</div><div class="value">{{ order.requester_name }}</div></div>
+    {% if order.approver_name %}
+    <div class="detail-item"><div class="label">تم القبول بواسطة</div><div class="value">{{ order.approver_name }}</div></div>
+    <div class="detail-item"><div class="label">تاريخ القبول</div><div class="value">{{ order.approved_at }}</div></div>
+    {% endif %}
+    {% if order.completer_name %}
+    <div class="detail-item"><div class="label">تم الإنهاء بواسطة</div><div class="value">{{ order.completer_name }}</div></div>
+    <div class="detail-item"><div class="label">تاريخ الإنهاء</div><div class="value">{{ order.completed_at }}</div></div>
+    {% endif %}
+  </div>
+  {% if order.request_notes %}
+  <div style="margin-top:20px;padding:15px;background:#f0fdf4;border-radius:10px">
+    <div style="font-weight:600;margin-bottom:5px">📝 ملاحظات الطلب:</div>
+    <div>{{ order.request_notes }}</div>
+  </div>
+  {% endif %}
+  {% if order.approval_notes %}
+  <div style="margin-top:10px;padding:15px;background:#fef3c7;border-radius:10px">
+    <div style="font-weight:600;margin-bottom:5px">📝 ملاحظات القبول:</div>
+    <div>{{ order.approval_notes }}</div>
+  </div>
+  {% endif %}
+</div>
+
+{% if rejections %}
+<div class="card" style="border-right:4px solid #dc2626">
+  <div style="font-size:18px;font-weight:700;color:#dc2626;margin-bottom:15px">❌ أسباب الرفض</div>
+  {% for rej in rejections %}
+  <div style="padding:10px;background:#fef2f2;border-radius:8px;margin-bottom:8px">
+    <div style="font-weight:600">{{ rej.full_name }}</div>
+    <div>{{ rej.rejection_reason }}</div>
+    <div style="font-size:12px;color:#6b7280;margin-top:4px">{{ rej.rejection_date }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if order.status == 'pending' and session.role_id == 2 %}
+<div class="card" style="border:2px solid #bbf7d0">
+  <div style="font-size:18px;font-weight:700;color:#1a3d2f;margin-bottom:15px">⚡ إجراءات الطلب</div>
+  <form action="{{ url_for('approve_order', order_id=order.request_id) }}" method="POST" style="margin-bottom:15px">
+    <div class="form-group">
+      <label>ملاحظات القبول (اختياري)</label>
+      <textarea name="notes" placeholder="أي ملاحظات..." style="min-height:60px"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success" style="padding:12px 30px;font-size:15px">✅ قبول الطلب وإرساله للإنتاج</button>
+  </form>
+  <hr style="border:none;border-top:1px solid #e5e7eb;margin:15px 0">
+  <form action="{{ url_for('reject_order', order_id=order.request_id) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من رفض الطلب؟')">
+    <div class="form-group">
+      <label style="color:#dc2626">سبب الرفض *</label>
+      <textarea name="reason" required placeholder="اذكر سبب الرفض..." style="min-height:60px"></textarea>
+    </div>
+    <button type="submit" class="btn btn-danger" style="padding:12px 30px;font-size:15px">❌ رفض الطلب</button>
+  </form>
+</div>
+{% endif %}
+
+{% if order.status == 'approved' and session.role_id == 6 %}
+<div class="card" style="border:2px solid #93c5fd">
+  <div style="font-size:18px;font-weight:700;color:#1e40af;margin-bottom:15px">✅ إنهاء الطلب</div>
+  <form action="{{ url_for('complete_order', order_id=order.request_id) }}" method="POST">
+    <div class="form-group">
+      <label>حالة الإنهاء</label>
+      <select name="completion_status" required>
+        <option value="">-- اختر --</option>
+        <option value="completed">مكتمل بالكامل</option>
+        <option value="partially_completed">مكتمل جزئياً</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>ملاحظات</label>
+      <textarea name="notes" placeholder="أي ملاحظات عن الإنهاء..." style="min-height:60px"></textarea>
+    </div>
+    <div id="pendingFields" style="display:none;padding:15px;background:#fef3c7;border-radius:10px;margin-bottom:15px">
+      <div style="font-weight:600;margin-bottom:10px;color:#92400e">📌 بيانات الجزء المتبقي</div>
+      <input type="hidden" name="has_pending" value="1">
+      <div class="form-group">
+        <label>الكمية المتبقية (طن)</label>
+        <input type="number" name="pending_qty" step="0.001" placeholder="0.000">
+      </div>
+      <div class="form-group">
+        <label>سبب التأخير</label>
+        <textarea name="delay_reason" placeholder"سبب التأخير..." style="min-height:60px"></textarea>
+      </div>
+      <div class="form-group">
+        <label>سبب الانحراف (إن وجد)</label>
+        <textarea name="deviation_reason" placeholder="سبب الانحراف عن المواصفات..." style="min-height:60px"></textarea>
+      </div>
+      <div class="form-group">
+        <label>تاريخ المتوقع للإنهاء</label>
+        <input type="date" name="expected_date">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" style="padding:12px 30px;font-size:15px">💾 حفظ الإنهاء</button>
+  </form>
+</div>
+<script>
+document.querySelector('[name="completion_status"]').addEventListener('change', function(){
+  document.getElementById('pendingFields').style.display = this.value === 'partially_completed' ? 'block' : 'none';
+});
+</script>
+{% endif %}
+
+{% if pending_items %}
+<div class="card" style="border-right:4px solid #d97706">
+  <div style="font-size:18px;font-weight:700;color:#92400e;margin-bottom:15px">📌 بنود متبقية</div>
+  {% for p in pending_items %}
+  <div style="padding:12px;background:#fffbeb;border-radius:8px;margin-bottom:8px">
+    <div class="detail-grid">
+      <div class="detail-item"><div class="label">العلف</div><div class="value">{{ p.feed_name_ar }}</div></div>
+      <div class="detail-item"><div class="label">الوزن</div><div class="value">{{ p.package_weight_kg }} كجم</div></div>
+      <div class="detail-item"><div class="label">الكمية المتبقية</div><div class="value">{{ p.pending_quantity }} طن</div></div>
+      {% if p.expected_completion %}
+      <div class="detail-item"><div class="label">متوقع الإنتهاء</div><div class="value">{{ p.expected_completion }}</div></div>
+      {% endif %}
+    </div>
+    <div style="margin-top:8px;font-size:13px;color:#4b5563"><strong>سبب التأخير:</strong> {{ p.delay_reason }}</div>
+    {% if p.deviation_reason %}
+    <div style="font-size:13px;color:#4b5563"><strong>سبب الانحراف:</strong> {{ p.deviation_reason }}</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card">
+  <div style="font-size:18px;font-weight:700;color:#1a3d2f;margin-bottom:15px">📜 سجل الطلب</div>
+  {% if history %}
+  <div class="history-timeline">
+    {% for h in history %}
+    <div class="history-item">
+      {% if h.action == 'approved' %}
+      <div class="action-text" style="color:#059669">✅ تم القبول</div>
+      {% elif h.action == 'rejected' %}
+      <div class="action-text" style="color:#dc2626">❌ تم الرفض</div>
+      {% elif h.action == 'completed' %}
+      <div class="action-text" style="color:#0284c7">✅ تم الإنهاء (مكتمل)</div>
+      {% elif h.action == 'partially_completed' %}
+      <div class="action-text" style="color:#d97706">⚠️ تم الإنهاء (مكتمل جزئياً)</div>
+      {% else %}
+      <div class="action-text">{{ h.action }}</div>
+      {% endif %}
+      <div class="action-meta">{{ h.full_name }} - {{ h.action_at }}</div>
+      {% if h.notes %}<div style="font-size:13px;color:#4b5563;margin-top:4px">{{ h.notes }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="color:#6b7280;text-align:center;padding:20px">لا يوجد سجل بعد</div>
+  {% endif %}
+</div>
+{% endblock %}

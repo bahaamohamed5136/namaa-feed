@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام طلبات تصنيع الأعلاف</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:linear-gradient(135deg,#1a3d2f,#2d6a4f,#1a3d2f);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden
+}
+body::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.03) 0%,transparent 50%),
+             radial-gradient(circle at 80% 50%,rgba(255,255,255,0.03) 0%,transparent 50%);
+  pointer-events:none
+}
+.floating-shapes{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0}
+.shape{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.03);
+  animation:floatShape 20s infinite ease-in-out
+}
+.shape:nth-child(1){width:300px;height:300px;top:-50px;left:-50px;animation-delay:0s}
+.shape:nth-child(2){width:200px;height:200px;bottom:-30px;right:-30px;animation-delay:-5s}
+.shape:nth-child(3){width:150px;height:150px;top:50%;left:80%;animation-delay:-10s}
+.shape:nth-child(4){width:250px;height:250px;top:60%;left:-100px;animation-delay:-15s}
+@keyframes floatShape{
+  0%,100%{transform:translate(0,0) scale(1);opacity:0.3}
+  25%{transform:translate(30px,-30px) scale(1.1);opacity:0.5}
+  50%{transform:translate(-20px,20px) scale(0.9);opacity:0.2}
+  75%{transform:translate(20px,30px) scale(1.05);opacity:0.4}
+}
+.login-container{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border-radius:30px;
+  padding:50px 40px;
+  width:420px;
+  max-width:90vw;
+  box-shadow:0 25px 60px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2);
+  position:relative;
+  z-index:1;
+  animation:fadeInUp 0.8s ease
+}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.logo{
+  text-align:center;margin-bottom:30px
+}
+.logo-icon{
+  width:90px;height:90px;margin:0 auto 20px;
+  background:linear-gradient(135deg,#2d6a4f,#40916c);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:45px;color:#fff;box-shadow:0 10px 30px rgba(45,106,79,0.3);
+  animation:pulse 2s infinite
+}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.logo h1{
+  font-size:22px;color:#1a3d2f;font-weight:700;line-height:1.4
+}
+.logo p{
+  font-size:13px;color:#6b7280;margin-top:8px
+}
+.form-group{margin-bottom:20px}
+.form-group label{
+  display:block;font-size:14px;font-weight:500;color:#374151;margin-bottom:6px
+}
+.form-group input{
+  width:100%;padding:14px 18px;border:2px solid #e5e7eb;border-radius:12px;
+  font-size:16px;font-family:'Tajawal',sans-serif;
+  transition:all 0.3s;background:#f9fafb;color:#1f2937
+}
+.form-group input:focus{
+  outline:none;border-color:#2d6a4f;box-shadow:0 0 0 4px rgba(45,106,79,0.1);background:#fff
+}
+.form-group input::placeholder{color:#9ca3af}
+.btn-submit{
+  width:100%;padding:16px;background:linear-gradient(135deg,#1a3d2f,#2d6a4f);
+  color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:700;
+  cursor:pointer;transition:all 0.3s;font-family:'Tajawal',sans-serif;
+  box-shadow:0 8px 20px rgba(45,106,79,0.3);
+  position:relative;overflow:hidden
+}
+.btn-submit:hover{
+  transform:translateY(-2px);box-shadow:0 12px 30px rgba(45,106,79,0.4)
+}
+.btn-submit:active{transform:translateY(0)}
+.btn-submit::after{
+  content:'';position:absolute;top:50%;left:50%;width:0;height:0;
+  background:rgba(255,255,255,0.2);border-radius:50%;
+  transform:translate(-50%,-50%);transition:width 0.6s,height 0.6s
+}
+.btn-submit:active::after{width:300px;height:300px}
+.error-msg{
+  background:#fef2f2;color:#dc2626;padding:12px 16px;border-radius:10px;
+  font-size:14px;margin-bottom:20px;border:1px solid #fecaca;
+  display:flex;align-items:center;gap:8px
+}
+.footer-text{
+  text-align:center;margin-top:25px;font-size:13px;color:#9ca3af;
+  padding-top:20px;border-top:1px solid #f3f4f6
+}
+.footer-text strong{color:#2d6a4f}
+.creds-hint{
+  margin-top:20px;padding:15px;background:#f0fdf4;border-radius:12px;
+  font-size:12px;color:#166534;border:1px solid #bbf7d0;
+  display:none
+}
+.creds-hint.show{display:block}
+.creds-hint code{
+  display:block;padding:3px 0;font-size:13px;font-weight:500
+}
+.toggle-hint{
+  text-align:center;margin-top:12px;font-size:12px;color:#6b7280;cursor:pointer;
+  transition:color 0.3s
+}
+.toggle-hint:hover{color:#2d6a4f}
+</style>
+</head>
+<body>
+<div class="floating-shapes">
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+</div>
+<div class="login-container">
+  <div class="logo">
+    <img src="{{ url_for('static', filename='namaa_logo.png') }}" alt="نماء للأعلاف" style="width:200px;margin-bottom:15px">
+    <h1>نظام طلبات تصنيع الأعلاف</h1>
+    <p>شركة نماء لصناعة الأعلاف</p>
+  </div>
+  {% if error %}
+  <div class="error-msg">⚠️ {{ error }}</div>
+  {% endif %}
+  <form method="POST">
+    <div class="form-group">
+      <label>اسم المستخدم</label>
+      <input type="text" name="username" placeholder="أدخل اسم المستخدم" required autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>كلمة المرور</label>
+      <input type="password" name="password" placeholder="أدخل كلمة المرور" required>
+    </div>
+    <button type="submit" class="btn-submit">تسجيل الدخول</button>
+  </form>
+  <div class="toggle-hint" onclick="this.nextElementSibling.classList.toggle('show')">🔑 إظهار بيانات الدخول التجريبية</div>
+  <div class="creds-hint">
+    <strong>حسابات تجريبية:</strong>
+    <code>⬅️ قويسنا: qwesna / 123456</code>
+    <code>⬅️ نماء (قبول): nema_acc / 123456</code>
+    <code>⬅️ إنتاج: production / 123456</code>
+    <code>⬅️ جودة: quality / 123456</code>
+    <code>⬅️ مخازن: warehouse / 123456</code>
+    <code>⬅️ إنهاء: nema_end / 123456</code>
+  </div>
+  <div class="footer-text">
+    تصميم المهندس / <strong>بهاء محمد</strong>
+  </div>
+</div>
+</body>
+</html>

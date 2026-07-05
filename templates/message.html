@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}رسالة{% endblock %}
+{% block content %}
+<div class="card" style="text-align:center;padding:60px 30px">
+  {% if type == 'success' %}
+  <div style="font-size:80px;margin-bottom:20px">✅</div>
+  {% elif type == 'danger' %}
+  <div style="font-size:80px;margin-bottom:20px">❌</div>
+  {% elif type == 'info' %}
+  <div style="font-size:80px;margin-bottom:20px">ℹ️</div>
+  {% else %}
+  <div style="font-size:80px;margin-bottom:20px">✅</div>
+  {% endif %}
+  <div style="font-size:22px;font-weight:700;color:#1a3d2f;margin-bottom:20px">{{ msg }}</div>
+  <div style="display:flex;gap:10px;justify-content:center">
+    <a href="javascript:history.back()" class="btn btn-primary" style="padding:12px 30px">🔙 رجوع</a>
+    <a href="{{ url_for('index') }}" class="btn btn-success" style="padding:12px 30px">🏠 الرئيسية</a>
+  </div>
+</div>
+{% endblock %}

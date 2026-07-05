@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}حماية النظام{% endblock %}
+{% block content %}
+<div class="card" style="max-width:450px;margin:40px auto;text-align:center">
+  <div style="font-size:60px;margin-bottom:15px">🔒</div>
+  <h2 style="color:#1a3d2f;margin-bottom:5px">حماية النظام</h2>
+  <p style="color:#6b7280;margin-bottom:20px">هذه المنطقة محمية، يرجى إدخال الرقم السري</p>
+  {% if error %}
+  <div style="background:#fee2e2;color:#991b1b;padding:12px;border-radius:10px;margin-bottom:15px;font-size:14px">{{ error }}</div>
+  {% endif %}
+  <form method="POST" action="{{ url_for('system_unlock') }}">
+    <input type="hidden" name="redirect" value="{{ redirect }}">
+    <div class="form-group">
+      <input type="password" name="password" placeholder="الرقم السري للنظام" required autofocus style="text-align:center;font-size:18px;letter-spacing:4px">
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px">🔓 فتح النظام</button>
+  </form>
+  <div style="margin-top:15px">
+    <a href="{{ url_for('admin_users') }}" class="btn btn-danger btn-sm">❌ رجوع</a>
+  </div>
+</div>
+{% endblock %}

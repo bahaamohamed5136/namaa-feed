@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block title %}الدليل التعريفي للنظام{% endblock %}
+{% block content %}
+<div class="page-title">📖 الدليل التعريفي لنظام طلبات تصنيع الأعلاف</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">🌾 نظرة عامة على النظام</h2>
+  <p style="line-height:1.8;font-size:15px;color:#374151">
+    نظام إلكتروني متكامل لإدارة طلبات تصنيع الأعلاف بين <strong>شركة قويسنا</strong> (العميل) 
+    و<strong>شركة نماء للأعلاف</strong> (المُصنّع). يهدف النظام إلى تنظيم وتوثيق ومتابعة 
+    طلبات التصنيع من التقديم حتى الإنهاء، مع تحديد صلاحيات كل مستخدم وفقاً لدوره الوظيفي.
+  </p>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">👤 المستخدمين والصلاحيات</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>الدور</th>
+          <th>الشركة</th>
+          <th>المهام والصلاحيات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>طالب قويسنا</strong></td>
+          <td>قويسنا</td>
+          <td>تقديم طلبات تصنيع جديدة - عرض طلباته السابقة</td>
+        </tr>
+        <tr>
+          <td><strong>مسئول قبول نماء</strong></td>
+          <td>نماء</td>
+          <td>مراجعة الطلبات الواردة - قبول أو رفض الطلبات مع إضافة ملاحظات</td>
+        </tr>
+        <tr>
+          <td><strong>مدير الإنتاج</strong></td>
+          <td>نماء</td>
+          <td>مشاهدة الطلبات المقبولة لمتابعة الإنتاج</td>
+        </tr>
+        <tr>
+          <td><strong>مدير الجودة</strong></td>
+          <td>نماء</td>
+          <td>مشاهدة الطلبات المقبولة لمتابعة الجودة</td>
+        </tr>
+        <tr>
+          <td><strong>مدير المخازن</strong></td>
+          <td>نماء</td>
+          <td>مشاهدة الطلبات المقبولة لمتابعة المخزون</td>
+        </tr>
+        <tr>
+          <td><strong>مسئول إنهاء نماء</strong></td>
+          <td>نماء</td>
+          <td>إنهاء الطلبات - تسجيل الإنهاء الكامل أو الجزئي - توثيق أسباب التأخير</td>
+        </tr>
+        <tr>
+          <td><strong>الإدارة العليا</strong></td>
+          <td>نماء</td>
+          <td>لوحة إحصائيات - تقارير - إدارة المستخدمين</td>
+        </tr>
+        <tr>
+          <td><strong>مدير النظام</strong></td>
+          <td>نماء</td>
+          <td>إدارة المستخدمين - تغيير الصلاحيات - تغيير كلمات المرور - مسح البيانات</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">🔄 سير العمل (Workflow)</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0">
+    <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:15px 20px;text-align:center;flex:1;min-width:120px">
+      <div style="font-size:30px">📝</div>
+      <div style="font-weight:700;color:#1a3d2f">تقديم طلب</div>
+      <div style="font-size:12px;color:#6b7280">طالب قويسنا</div>
+    </div>
+    <div style="font-size:30px;align-self:center">←</div>
+    <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:15px 20px;text-align:center;flex:1;min-width:120px">
+      <div style="font-size:30px">✅</div>
+      <div style="font-weight:700;color:#1a3d2f">قبول / رفض</div>
+      <div style="font-size:12px;color:#6b7280">مسئول قبول نماء</div>
+    </div>
+    <div style="font-size:30px;align-self:center">←</div>
+    <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:15px 20px;text-align:center;flex:1;min-width:120px">
+      <div style="font-size:30px">🏭</div>
+      <div style="font-weight:700;color:#1a3d2f">متابعة الإنتاج</div>
+      <div style="font-size:12px;color:#6b7280">إنتاج / جودة / مخازن</div>
+    </div>
+    <div style="font-size:30px;align-self:center">←</div>
+    <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:15px 20px;text-align:center;flex:1;min-width:120px">
+      <div style="font-size:30px">🎯</div>
+      <div style="font-weight:700;color:#1a3d2f">إنهاء الطلب</div>
+      <div style="font-size:12px;color:#6b7280">مسئول إنهاء نماء</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">📋 أنواع الأعلاف</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>الكود</th>
+          <th>الاسم</th>
+          <th>نسبة البروتين</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>LAY14</td><td>بياض 14%</td><td>14%</td></tr>
+        <tr><td>LAY10</td><td>بياض 10%</td><td>10%</td></tr>
+        <tr><td>LAY25</td><td>بياض 25%</td><td>25%</td></tr>
+        <tr><td>SPB23</td><td>سوبر بادى 23%</td><td>23%</td></tr>
+        <tr><td>SPN21</td><td>سوبر نامى 21%</td><td>21%</td></tr>
+        <tr><td>SPF19</td><td>سوبر ناهى 19%</td><td>19%</td></tr>
+        <tr><td>SPBN21</td><td>سوبر بادى نامى 21%</td><td>21%</td></tr>
+        <tr><td>HOM10</td><td>منزلى 10 ك</td><td>10%</td></tr>
+        <tr><td>LAY16</td><td>بياض 16%</td><td>16%</td></tr>
+        <tr><td>LAY18</td><td>بياض 18%</td><td>18%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">🚀 كيفية استخدام النظام</h2>
+  <div style="display:grid;gap:15px">
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">1️⃣ تسجيل الدخول</h4>
+      <p style="color:#374151;font-size:14px">استخدم اسم المستخدم وكلمة المرور الخاصة بك. كل مستخدم له صلاحيات محددة حسب دوره.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">2️⃣ تقديم طلب (لطالب قويسنا)</h4>
+      <p style="color:#374151;font-size:14px">اختر نوع العلف، حدد وزن العبوة والكمية المطلوبة بالطن، وأرسل الطلب. سيتم إنشاء رقم طلب تلقائي.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">3️⃣ قبول الطلب (لمسئول قبول نماء)</h4>
+      <p style="color:#374151;font-size:14px">شاهد الطلبات الواردة، اطلع على التفاصيل، ثم إما قبول الطلب (ليذهب للإنتاج) أو رفضه مع ذكر السبب.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">4️⃣ متابعة الإنتاج (لمدير الإنتاج / الجودة / المخازن)</h4>
+      <p style="color:#374151;font-size:14px">مشاهدة الطلبات المقبولة لمتابعة سير العمل في الإنتاج والجودة والمخازن.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">5️⃣ إنهاء الطلب (لمسئول إنهاء نماء)</h4>
+      <p style="color:#374151;font-size:14px">بعد اكتمال التصنيع، قم بإنهاء الطلب. يمكنك تسجيل إنهاء كامل أو جزئي مع توثيق أسباب التأخير إذا وجدت.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">6️⃣ الإدارة العليا</h4>
+      <p style="color:#374151;font-size:14px">لوحة إحصائيات متكاملة تعرض إجمالي الطلبات، قيد الانتظار، المقبول، المرفوض، المكتمل، والمكتمل جزئياً.</p>
+    </div>
+    <div style="background:#f9fafb;border-radius:10px;padding:15px;border-right:4px solid #2d6a4f">
+      <h4 style="color:#1a3d2f">7️⃣ مدير النظام</h4>
+      <p style="color:#374151;font-size:14px">إدارة المستخدمين: إضافة مستخدمين جدد، تغيير صلاحياتهم، تغيير كلمات المرور، ومسح بيانات الطلبات بالكامل.</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">🔑 حسابات تجريبية</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>الدور</th>
+          <th>اسم المستخدم</th>
+          <th>كلمة المرور</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>طالب قويسنا 1</td><td>qwesna</td><td>123456</td></tr>
+        <tr><td>طالب قويسنا 2</td><td>qwesna2</td><td>123456</td></tr>
+        <tr><td>مسئول قبول نماء 1</td><td>nema_acc</td><td>123456</td></tr>
+        <tr><td>مسئول قبول نماء 2</td><td>nema_acc2</td><td>123456</td></tr>
+        <tr><td>مدير الإنتاج</td><td>production</td><td>123456</td></tr>
+        <tr><td>مدير الجودة</td><td>quality</td><td>123456</td></tr>
+        <tr><td>مدير المخازن</td><td>warehouse</td><td>123456</td></tr>
+        <tr><td>مسئول إنهاء نماء</td><td>nema_end</td><td>123456</td></tr>
+        <tr><td>الإدارة العليا</td><td>top_mgmt</td><td>123456</td></tr>
+        <tr><td>مدير النظام</td><td>admin</td><td>123456</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="color:#1a3d2f;margin-bottom:15px">⚙️ تقني</h2>
+  <p style="line-height:1.8;font-size:14px;color:#374151">
+    <strong>لغة البرمجة:</strong> Python (Flask Framework)<br>
+    <strong>قاعدة البيانات:</strong> SQLite<br>
+    <strong>الواجهة:</strong> HTML + CSS + JavaScript (متوافقة مع الجوال)<br>
+    <strong>الخادم:</strong> مدمج (Flask dev server) على port 5001<br>
+    <strong>التشغيل:</strong> شغّل <code>run.vbs</code> وافتح <code>http://localhost:5001</code>
+  </p>
+</div>
+
+<div style="text-align:center;padding:20px;color:#6b7280;font-size:13px">
+  تصميم وتطوير المهندس / <strong>بهاء محمد</strong> &bull; 2024
+</div>
+{% endblock %}
